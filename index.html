@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ISLA CAMARONERA — Camarón Directo de la Isla | Cuenca, Ecuador</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --teal:#1B4D5C;
+  --teal-dark:#0f2e38;
+  --teal-mid:#21606f;
+  --cream:#F5F0E8;
+  --gold:#C9A84C;
+  --gold-l:#dfc06a;
+  --gold-dim:rgba(201,168,76,.25);
+  --white:#FFFFFF;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito',sans-serif;background:var(--teal);color:var(--cream);overflow-x:hidden}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--teal-dark)}
+::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
+
+/* ICON HELPER */
+.ic{display:inline-flex;align-items:center;justify-content:center;width:1em;height:1em;vertical-align:middle;flex-shrink:0}
+.ic svg{width:100%;height:100%;fill:currentColor}
+
+/* ── NAVBAR ────────────────────────── */
+.navbar{position:fixed;top:0;left:0;right:0;z-index:1000;padding:.8rem 2rem;display:flex;align-items:center;justify-content:space-between;background:#F5F0E8;border-bottom:1px solid rgba(27,58,92,.12);transition:all .4s ease}
+.navbar.scrolled{background:#F5F0E8;box-shadow:0 2px 20px rgba(27,58,92,.12);border-bottom-color:rgba(75,163,195,.3)}
+.navbar-logo{height:50px;width:auto;transition:transform .3s}
+.navbar-logo:hover{transform:scale(1.07)}
+.nav-links{display:flex;gap:1.8rem;list-style:none;align-items:center}
+.nav-links a{color:rgba(27,58,92,.82);text-decoration:none;font-size:.85rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;font-family:'Nunito',sans-serif;position:relative;transition:color .3s;padding-bottom:3px}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:#4BA3C3;border-radius:2px;transition:width .35s cubic-bezier(.34,1.56,.64,1)}
+.nav-links a:hover{color:#4BA3C3}
+.nav-links a:hover::after{width:100%}
+.nav-cta{background:#4BA3C3!important;color:#fff!important;padding:.45rem 1.3rem;border-radius:50px;font-weight:800!important;letter-spacing:.5px!important;transition:all .3s!important}
+.nav-cta:hover{background:#3a8fad!important;transform:translateY(-2px);box-shadow:0 6px 20px rgba(75,163,195,.45)!important}
+.nav-cta::after{display:none!important}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.hamburger span{width:24px;height:2px;background:#1B4D5C;transition:all .3s}
+
+/* ── HERO ───────────────────────────── */
+.hero{position:relative;height:100vh;min-height:580px;display:flex;align-items:center;justify-content:flex-start;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:url('hero-bg.png') right center/cover no-repeat}
+.hero-overlay{display:none}
+.particles{display:none}
+.hero-content{position:relative;z-index:2;text-align:left;padding-left:clamp(2rem,7vw,7rem);padding-top:1rem;max-width:min(55%,620px)}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+.hero-title{font-family:'Fredoka One',cursive;line-height:.95;margin-bottom:1.1rem;animation:fadeUp .85s ease .15s forwards;opacity:0}
+.hero-isla{display:block;font-size:clamp(48px,6.5vw,80px);color:#1B4D5C;letter-spacing:2px}
+.hero-camaronera{display:block;font-size:clamp(58px,8vw,100px);color:#4BA3C3;letter-spacing:1px}
+.hero-line{width:100px;height:2px;background:#1B4D5C;opacity:.4;margin:.9rem 0;animation:fadeUp .85s ease .3s forwards;opacity:0}
+.hero-tagline{font-family:'Nunito',sans-serif;font-weight:800;font-size:clamp(11px,1.2vw,14px);letter-spacing:5px;text-transform:uppercase;color:#1B4D5C;margin-bottom:2rem;animation:fadeUp .85s ease .45s forwards;opacity:0}
+.hero-btns{display:flex;gap:.9rem;justify-content:flex-start;flex-wrap:wrap;animation:fadeUp .85s ease .6s forwards;opacity:0}
+.btn-gold{display:inline-flex;align-items:center;gap:.6rem;background:#4BA3C3;color:#fff;padding:.8rem 1.7rem;border-radius:50px;text-decoration:none;font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;transition:all .3s;box-shadow:0 4px 16px rgba(75,163,195,.35)}
+.btn-gold:hover{background:#3a8fad;transform:translateY(-3px);box-shadow:0 8px 24px rgba(75,163,195,.5)}
+.btn-gold .ic{width:1rem;height:1rem}
+.btn-ghost{display:inline-flex;align-items:center;gap:.6rem;background:transparent;color:#1B4D5C;padding:.8rem 1.7rem;border-radius:50px;text-decoration:none;font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;border:2px solid #1B4D5C;transition:all .3s}
+.btn-ghost:hover{background:rgba(27,58,92,.08);transform:translateY(-3px)}
+.btn-ghost .ic{width:1rem;height:1rem}
+
+/* ── WAVE SEPARATORS ─────────────────── */
+.wave-sep{display:block;width:100%;line-height:0;overflow:hidden}
+.wave-sep svg{display:block;width:100%}
+
+/* ── ABOUT PARALLAX ─────────────────── */
+.about-parallax{position:relative;height:44vh;min-height:300px;overflow:hidden}
+.parallax-img{position:absolute;inset:-25%;background:url('fotolocalvacio.jpg') center/cover no-repeat}
+.parallax-dark{position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,46,56,.55),rgba(15,46,56,.9))}
+.parallax-label{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);font-family:'Fredoka One',cursive;font-size:clamp(2.8rem,7vw,5.5rem);letter-spacing:4px;white-space:nowrap;text-align:center;color:var(--cream);text-shadow:0 4px 20px rgba(0,0,0,.5)}
+.parallax-label span{color:var(--gold)}
+
+/* ── ABOUT BODY (cream section) ─────── */
+.about-body{background:var(--cream);padding:5rem 2rem}
+.about-body,
+.about-body *:not(.feat-icon,.feat-title){color:var(--teal)}
+.container{max-width:1100px;margin:0 auto}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;margin-bottom:4rem}
+.tag{display:inline-flex;align-items:center;gap:.45rem;font-family:'Nunito',sans-serif;font-weight:800;font-size:.78rem;letter-spacing:4px;text-transform:uppercase;margin-bottom:.9rem;color:var(--teal)}
+.tag .ic{width:.9rem;height:.9rem}
+.about-body .tag{color:var(--teal)}
+.sec-title{font-family:'Fredoka One',cursive;font-size:clamp(2.4rem,5vw,3.8rem);line-height:1.05;margin-bottom:1.4rem;letter-spacing:.5px}
+.about-body .sec-title{color:var(--teal)}
+.sec-title .ac{color:var(--gold);-webkit-text-fill-color:var(--gold)}
+.about-text{line-height:1.9;font-size:.97rem;color:rgba(27,77,92,.78)}
+.about-text p{margin-bottom:1rem}
+.img-wrap{position:relative}
+.img-wrap img{width:100%;border-radius:20px;display:block;box-shadow:0 16px 50px rgba(27,77,92,.2)}
+.img-wrap::after{content:'';position:absolute;top:12px;left:12px;right:-12px;bottom:-12px;border:2px solid var(--gold);border-radius:20px;z-index:-1;opacity:.5}
+.vid-wrap{position:relative;border-radius:20px;overflow:hidden;box-shadow:0 16px 50px rgba(27,77,92,.2)}
+.vid-wrap::after{content:'';position:absolute;top:12px;left:12px;right:-12px;bottom:-12px;border:2px solid var(--gold);border-radius:20px;z-index:-1;opacity:.5}
+.vid-wrap video{width:128%;margin-left:-14%;margin-bottom:-14%;display:block}
+
+/* Feature cards (on cream) */
+.feats{display:grid;grid-template-columns:repeat(3,1fr);gap:1.8rem}
+.feat{background:var(--white);border:2px solid var(--gold-dim);border-radius:20px;padding:2.2rem 1.5rem;text-align:center;transition:all .4s cubic-bezier(.34,1.56,.64,1);box-shadow:5px 5px 0 var(--gold-dim)}
+.feat:hover{transform:translateY(-6px) rotate(2.5deg);box-shadow:10px 10px 0 var(--gold-dim);border-color:var(--gold)}
+.feat-icon{font-size:2.8rem;margin-bottom:.9rem;display:flex;justify-content:center;color:var(--gold);animation:bob 3s ease infinite}
+.feat-icon .ic{width:1em;height:1em}
+.feat:nth-child(2) .feat-icon{animation-delay:.35s}
+.feat:nth-child(3) .feat-icon{animation-delay:.7s}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.feat-title{font-family:'Fredoka One',cursive;font-size:1.3rem;color:var(--teal);margin-bottom:.5rem}
+.feat-desc{color:rgba(27,77,92,.62);font-size:.88rem;line-height:1.65;font-family:'Nunito',sans-serif}
+
+/* ── PRODUCTS (dark teal) ────────────── */
+.products{background:var(--teal-dark);padding:5.5rem 2rem 6rem}
+.products .tag{color:var(--gold-dim)}
+.products .sec-title{color:var(--gold)}
+.products .sec-header p{color:rgba(245,240,232,.58);font-size:.97rem;max-width:480px;margin:.8rem auto 0}
+.sec-header{text-align:center;margin-bottom:3.5rem}
+.prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.3rem;overflow:visible}
+.prod-card{position:relative;border-radius:20px;overflow:hidden;cursor:pointer;box-shadow:0 8px 30px rgba(0,0,0,.35);transition:transform .4s cubic-bezier(.34,1.56,.64,1),box-shadow .4s;z-index:1}
+.prod-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease}
+.prod-card:hover{z-index:5}
+.prod-card:nth-child(odd):hover{transform:rotate(2deg) scale(1.04)}
+.prod-card:nth-child(even):hover{transform:rotate(-2deg) scale(1.04)}
+.prod-card.sz-wide:hover{transform:scale(1.02) rotate(.5deg)}
+.prod-card:hover img{transform:scale(1.08)}
+.prod-base{position:absolute;inset:0;background:linear-gradient(to top,rgba(15,46,56,.95) 0%,rgba(15,46,56,.3) 55%,transparent 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:1.5rem;transition:opacity .4s}
+.prod-card:hover .prod-base{opacity:0}
+.prod-hover{position:absolute;inset:0;background:linear-gradient(160deg,rgba(27,77,92,.96),rgba(15,46,56,.99));display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.8rem;text-align:center;opacity:0;transition:opacity .4s}
+.prod-card:hover .prod-hover{opacity:1}
+.prod-name{font-family:'Fredoka One',cursive;font-size:1.55rem;letter-spacing:.5px;color:var(--cream);margin-bottom:.25rem}
+.prod-sub{color:var(--gold);font-family:'Nunito',sans-serif;font-weight:800;font-size:.75rem;letter-spacing:2px;text-transform:uppercase;display:flex;align-items:center;gap:.3rem}
+.prod-sub .ic{width:.8rem;height:.8rem}
+.ph-name{font-family:'Fredoka One',cursive;font-size:2rem;letter-spacing:1px;color:var(--gold);margin-bottom:.8rem}
+.ph-desc{color:rgba(245,240,232,.88);font-size:.88rem;line-height:1.7;margin-bottom:1.3rem;font-family:'Nunito',sans-serif}
+.ph-btn{display:inline-flex;align-items:center;gap:.5rem;background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;padding:.7rem 1.5rem;border-radius:50px;text-decoration:none;font-family:'Nunito',sans-serif;font-weight:800;font-size:.85rem;transition:transform .3s}
+.ph-btn:hover{transform:scale(1.06)}
+.ph-btn .ic{width:1rem;height:1rem}
+.prod-card.sz-tall{aspect-ratio:3/4}
+.prod-card.sz-wide{grid-column:span 2;aspect-ratio:16/7}
+.prod-card.sz-sq{aspect-ratio:1}
+
+/* ── STATS (teal) ────────────────────── */
+.stats{background:var(--teal);padding:5.5rem 2rem 6rem;position:relative;overflow:hidden}
+.stats::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:700px;background:radial-gradient(circle,rgba(201,168,76,.06) 0%,transparent 65%);pointer-events:none}
+.stats .tag{color:var(--gold-dim)}
+.stats .sec-title{color:var(--gold)}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}
+.stat{text-align:center;padding:2.5rem 1.5rem;background:rgba(255,255,255,.05);border:1px solid var(--gold-dim);border-radius:20px;transition:all .4s cubic-bezier(.34,1.56,.64,1)}
+.stat:hover{background:rgba(201,168,76,.08);border-color:rgba(201,168,76,.45);transform:translateY(-5px) rotate(1deg)}
+.stat-ico{font-size:2.4rem;margin-bottom:.9rem;display:flex;justify-content:center;color:var(--gold)}
+.stat-ico .ic{width:1em;height:1em}
+.stat-num{font-family:'Fredoka One',cursive;font-size:4.2rem;line-height:1;color:var(--gold);margin-bottom:.4rem}
+.stat-lbl{color:rgba(245,240,232,.65);font-size:.88rem;font-weight:600;letter-spacing:.8px}
+.why-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;margin-top:3.5rem}
+.why-item{display:flex;align-items:flex-start;gap:1rem;padding:1.4rem 1.5rem;background:rgba(255,255,255,.04);border-radius:16px;border-left:3px solid var(--gold);transition:all .3s}
+.why-item:hover{background:rgba(201,168,76,.07);transform:translateX(6px)}
+.why-ico{font-size:1.7rem;flex-shrink:0;color:var(--gold);display:flex;align-items:center;margin-top:.1rem}
+.why-ico .ic{width:1em;height:1em}
+.why-title{font-family:'Fredoka One',cursive;font-size:1.05rem;color:var(--gold);margin-bottom:.3rem;letter-spacing:.5px}
+.why-text{color:rgba(245,240,232,.65);font-size:.84rem;line-height:1.65}
+
+/* ── CONTACT (cream) ─────────────────── */
+.contact{background:var(--cream);padding:5.5rem 2rem 6rem}
+.contact .tag{color:var(--teal)}
+.contact .sec-title{color:var(--teal)}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+.c-detail{display:flex;align-items:center;gap:1rem;padding:1.1rem 1.3rem;background:rgba(27,77,92,.05);border-radius:14px;margin-bottom:.9rem;border:1px solid rgba(27,77,92,.12);transition:all .3s}
+.c-detail:hover{background:rgba(201,168,76,.1);border-color:var(--gold-dim)}
+.c-ico{width:44px;height:44px;background:linear-gradient(135deg,var(--teal),var(--teal-mid));border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.c-ico .ic{width:22px;height:22px;color:var(--cream)}
+.c-ico svg{fill:var(--cream)}
+.c-lbl{color:rgba(27,77,92,.5);font-size:.72rem;text-transform:uppercase;letter-spacing:2px;font-weight:600}
+.c-val{font-weight:700;font-size:.92rem;color:var(--teal)}
+.map-box{border-radius:20px;overflow:hidden;border:2px solid var(--gold-dim);margin-top:1.2rem;box-shadow:5px 5px 0 var(--gold-dim)}
+.map-box iframe{width:100%;height:300px;border:none;display:block;filter:sepia(20%) saturate(70%)}
+.soc-btns{display:flex;flex-direction:column;gap:1rem}
+.soc-intro{color:rgba(27,77,92,.68);font-size:.93rem;line-height:1.78;margin-bottom:.6rem}
+.soc-btn{display:flex;align-items:center;gap:1rem;padding:1rem 1.4rem;border-radius:14px;text-decoration:none;font-family:'Nunito',sans-serif;font-weight:800;font-size:.95rem;transition:all .3s}
+.soc-wa{background:linear-gradient(135deg,#25D366,#128C7E);color:#fff}
+.soc-wa:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(37,211,102,.4)}
+.soc-ig{background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);color:#fff}
+.soc-ig:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(253,29,29,.35)}
+.soc-tt{background:linear-gradient(135deg,#111,#69C9D0);color:#fff;border:1px solid rgba(105,201,208,.3)}
+.soc-tt:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(105,201,208,.25)}
+.soc-btn-ico{display:flex;align-items:center;flex-shrink:0}
+.soc-btn-ico .ic{width:1.4rem;height:1.4rem}
+.soc-btn-txt{display:flex;flex-direction:column;line-height:1.25}
+.soc-btn-txt small{font-weight:400;opacity:.8;font-size:.73rem}
+.soc-note{margin-top:1.5rem;padding:1.4rem;background:var(--teal);border:1px solid var(--gold-dim);border-radius:16px}
+.soc-note-title{font-family:'Fredoka One',cursive;color:var(--gold);margin-bottom:.45rem;font-size:1rem;display:flex;align-items:center;gap:.4rem}
+.soc-note-title .ic{width:.9rem;height:.9rem}
+.soc-note p{color:rgba(245,240,232,.7);font-size:.86rem;line-height:1.65}
+
+/* ── FOOTER ──────────────────────────── */
+footer{background:var(--teal-dark);padding:3rem 2rem 1.8rem;border-top:2px solid var(--gold-dim)}
+.footer-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:2rem;margin-bottom:2rem}
+.footer-logo img{height:56px}
+.footer-tagline{color:rgba(245,240,232,.42);font-size:.82rem;margin-top:.4rem}
+.footer-links{display:flex;gap:1.8rem;flex-wrap:wrap}
+.footer-links a{color:rgba(245,240,232,.5);text-decoration:none;font-size:.83rem;font-weight:600;transition:color .3s}
+.footer-links a:hover{color:var(--gold)}
+.footer-soc{display:flex;gap:.8rem}
+.footer-soc a{width:40px;height:40px;background:rgba(201,168,76,.1);border:1px solid var(--gold-dim);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--cream);text-decoration:none;transition:all .3s}
+.footer-soc a:hover{background:var(--gold);border-color:var(--gold);transform:translateY(-3px) rotate(5deg)}
+.footer-soc a:hover .ic svg{fill:var(--teal-dark)}
+.footer-soc .ic{width:18px;height:18px}
+.footer-bot{display:flex;align-items:center;justify-content:space-between;padding-top:1.4rem;border-top:1px solid rgba(245,240,232,.08);flex-wrap:wrap;gap:.8rem}
+.footer-copy,.footer-made{color:rgba(245,240,232,.38);font-size:.78rem}
+.footer-made .ic{color:var(--gold);width:.85rem;height:.85rem}
+
+/* ── FLOATING WA ─────────────────────── */
+.float-wa{position:fixed;bottom:1.8rem;right:1.8rem;z-index:999;display:flex;align-items:center;gap:.7rem;background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;padding:.8rem 1.5rem;border-radius:50px;text-decoration:none;font-family:'Nunito',sans-serif;font-weight:800;font-size:.88rem;box-shadow:0 6px 25px rgba(37,211,102,.45);transition:all .3s;animation:waPulse 3s ease infinite}
+@keyframes waPulse{0%,100%{box-shadow:0 6px 25px rgba(37,211,102,.45)}50%{box-shadow:0 6px 40px rgba(37,211,102,.75),0 0 0 8px rgba(37,211,102,.1)}}
+.float-wa:hover{transform:translateY(-4px) scale(1.05);box-shadow:0 12px 40px rgba(37,211,102,.65)}
+.float-wa-ico .ic{width:1.25rem;height:1.25rem}
+
+/* ── REVEAL ANIMATIONS ───────────────── */
+.reveal,.reveal-l,.reveal-r{transition:opacity .75s ease,transform .75s ease}
+.reveal{opacity:0;transform:translateY(38px)}
+.reveal-l{opacity:0;transform:translateX(-38px)}
+.reveal-r{opacity:0;transform:translateX(38px)}
+.revealed{opacity:1!important;transform:none!important}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}.d5{transition-delay:.5s}
+
+/* ── RESPONSIVE ──────────────────────── */
+@media(max-width:900px){
+  .about-grid{grid-template-columns:1fr;gap:2.5rem}
+  .feats{grid-template-columns:1fr}
+  .prod-grid{grid-template-columns:1fr 1fr}
+  .prod-card.sz-wide{grid-column:span 2}
+  .prod-card.sz-tall{aspect-ratio:4/3}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .why-grid{grid-template-columns:1fr}
+  .contact-grid{grid-template-columns:1fr;gap:2.5rem}
+}
+@media(max-width:640px){
+  .nav-links{display:none;position:fixed;top:68px;left:0;right:0;background:#F5F0E8;flex-direction:column;padding:1.5rem;gap:1rem;border-bottom:2px solid rgba(75,163,195,.25)}
+  .nav-links.open{display:flex}
+  .hamburger{display:flex}
+  .hero-btns{flex-direction:column;align-items:center}
+  .prod-grid{grid-template-columns:1fr}
+  .prod-card.sz-wide{grid-column:span 1;aspect-ratio:4/3}
+  .stats-grid{grid-template-columns:1fr}
+  .footer-top{flex-direction:column;text-align:center}
+  .footer-bot{flex-direction:column;text-align:center}
+  .float-wa .float-txt{display:none}
+  .float-wa{padding:.9rem;border-radius:50%}
+}
+</style>
+</head>
+<body>
+
+<!-- SVG ICONS LIBRARY -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <symbol id="i-wa" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zm-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884zm8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></symbol>
+  <symbol id="i-ig" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></symbol>
+  <symbol id="i-tt" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V9.33a8.16 8.16 0 004.77 1.52V7.4a4.85 4.85 0 01-1-.71z"/></symbol>
+  <symbol id="i-shrimp" viewBox="0 0 24 24"><path d="M21 7.5a3 3 0 00-3-3 2.99 2.99 0 00-2.12.88L14.5 6.75l-.63-.63a5 5 0 00-7.07 7.07l.88.88A5 5 0 0014 15.5h.25l-.63 1.38A3 3 0 1016.5 18a3.02 3.02 0 00-.24-1.18l.87-1.9A5.02 5.02 0 0019.5 10.5a4.95 4.95 0 00-.44-2.04A3 3 0 0021 7.5zm-3 0a1 1 0 110-2 1 1 0 010 2zm-4.5 8a3 3 0 01-4.24-4.24l.64-.63 3.6 3.6-.63.64-.01.01a3 3 0 01.64.62zm1.5.5a1 1 0 110 2 1 1 0 010-2zm2-4.5a3 3 0 01-.88 2.12l-3.5-3.5.63-.63A3 3 0 0117 9a3 3 0 010 2.5z"/></symbol>
+  <symbol id="i-fork" viewBox="0 0 24 24"><path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></symbol>
+  <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3zm0 14l.75 2.25L15 20l-2.25.75L12 23l-.75-2.25L9 20l2.25-.75L12 17zM5 5l.5 1.5L7 7l-1.5.5L5 9l-.5-1.5L3 7l1.5-.5L5 5z"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M7 2v11h3v9l7-12h-4l4-8z"/></symbol>
+  <symbol id="i-wave" viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"/></symbol>
+  <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22l1-2.3A4.49 4.49 0 008 20C19 20 22 3 22 3c-1 2-8 8-8 8zm-8.23 9.24a15.41 15.41 0 013.84-4.93C11.79 14.94 10.73 17.41 8.77 17.24z"/></symbol>
+  <symbol id="i-person" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24"><path d="M12 15.2A3.2 3.2 0 1112 8.8a3.2 3.2 0 010 6.4zM9 3L7.17 5H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V7a2 2 0 00-2-2h-3.17L15 3H9z"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2zm0 16H5V9h14v10zM5 7V5h14v2H5zm2 4h10v2H7zm0 4h7v2H7z"/></symbol>
+  <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94A5.01 5.01 0 0011 15.9V18H9v2h6v-2h-2v-2.1a5.01 5.01 0 003.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM7 11.7C5.84 11.37 5 10.28 5 9V7h2v4.7zm12-2.7c0 1.28-.84 2.37-2 2.7V7h2v2z"/></symbol>
+</svg>
+
+<!-- FLOATING WHATSAPP -->
+<a href="https://wa.me/593995451502" class="float-wa" target="_blank" rel="noopener">
+  <span class="float-wa-ico"><span class="ic"><svg><use href="#i-wa"/></svg></span></span>
+  <span class="float-txt">Hacer Pedido</span>
+</a>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <a href="#hero"><img src="logoisla.png" alt="Isla Camaronera" class="navbar-logo"></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#about">Nosotros</a></li>
+    <li><a href="#products">Menú</a></li>
+    <li><a href="#stats">¿Por qué?</a></li>
+    <li><a href="#contact">Contacto</a></li>
+    <li><a href="https://wa.me/593995451502" target="_blank" class="nav-cta">Pedir Ahora</a></li>
+  </ul>
+  <div class="hamburger" id="ham" onclick="toggleNav()"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-overlay"></div>
+  <div class="particles" id="ptcls"></div>
+  <div class="hero-content">
+    <h1 class="hero-title">
+      <span class="hero-isla">ISLA</span>
+      <span class="hero-camaronera">CAMARONERA</span>
+    </h1>
+    <div class="hero-line"></div>
+    <p class="hero-tagline">· Camarón directo de la isla ·</p>
+    <div class="hero-btns">
+      <a href="https://wa.me/593995451502" class="btn-gold" target="_blank" rel="noopener">
+        <span class="ic"><svg><use href="#i-wa"/></svg></span> Pedir por WhatsApp
+      </a>
+      <a href="#products" class="btn-ghost">
+        <span class="ic"><svg><use href="#i-fork"/></svg></span> Ver Menú
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- wave: teal → teal-dark (about parallax) -->
+<div class="wave-sep" style="background:var(--teal)">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="height:60px">
+    <path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" fill="#0f2e38"/>
+  </svg>
+</div>
+
+<!-- SOBRE NOSOTROS -->
+<section id="about">
+  <div class="about-parallax">
+    <div class="parallax-img" id="plxBg"></div>
+    <div class="parallax-dark"></div>
+    <h2 class="parallax-label">NUESTRA <span>HISTORIA</span></h2>
+  </div>
+
+  <!-- wave: teal-dark → cream -->
+  <div class="wave-sep" style="background:#0f2e38">
+    <svg viewBox="0 0 1440 70" preserveAspectRatio="none" style="height:70px">
+      <path d="M0,35 C240,70 480,0 720,35 C960,70 1200,0 1440,35 L1440,70 L0,70 Z" fill="#F5F0E8"/>
+    </svg>
+  </div>
+
+  <div class="about-body">
+    <div class="container">
+      <div class="about-grid">
+        <div class="reveal-l">
+          <span class="tag"><span class="ic"><svg><use href="#i-shrimp"/></svg></span> Sobre Nosotros</span>
+          <h2 class="sec-title">Del mar a tu <span class="ac">plato</span></h2>
+          <div class="about-text">
+            <p><strong style="color:var(--teal)">Isla Camaronera</strong> nació de la pasión de una joven emprendedora por llevar el sabor auténtico del camarón ecuatoriano a Cuenca. Abrimos en mayo de 2025 con una misión clara: comida rápida que no sacrifica la calidad.</p>
+            <p>Nuestro camarón llega <strong style="color:var(--gold)">directamente desde la isla</strong> — somos productores y exportadores certificados. Frescura real, garantizada en cada pedido.</p>
+            <p>Cada receta está diseñada para ser <strong style="color:var(--teal)">alta en proteína</strong>, elaborada con hierbas frescas y salsas únicas que no encontrarás en ningún otro lugar de Cuenca.</p>
+          </div>
+        </div>
+        <div class="reveal-r">
+          <div class="vid-wrap">
+            <video id="aboutVideo" autoplay muted playsinline>
+              <source src="video.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+      <div class="feats">
+        <div class="feat reveal d1">
+          <div class="feat-icon"><span class="ic"><svg><use href="#i-shrimp"/></svg></span></div>
+          <h3 class="feat-title">Camarón de la Isla</h3>
+          <p class="feat-desc">Productores y exportadores certificados. Sin intermediarios — máxima frescura desde el origen hasta tu plato.</p>
+        </div>
+        <div class="feat reveal d2">
+          <div class="feat-icon"><span class="ic"><svg><use href="#i-trophy"/></svg></span></div>
+          <h3 class="feat-title">Alto en Proteína</h3>
+          <p class="feat-desc">Comida rápida que cuida tu cuerpo. El camarón es una de las proteínas más completas y naturales que existen.</p>
+        </div>
+        <div class="feat reveal d3">
+          <div class="feat-icon"><span class="ic"><svg><use href="#i-star"/></svg></span></div>
+          <h3 class="feat-title">Recetas Únicas</h3>
+          <p class="feat-desc">Creaciones originales con hierbas frescas y salsas artesanales. Sabores que solo encontrarás aquí.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- wave: cream → teal-dark -->
+  <div class="wave-sep" style="background:var(--cream)">
+    <svg viewBox="0 0 1440 70" preserveAspectRatio="none" style="height:70px">
+      <path d="M0,35 C240,0 480,70 720,35 C960,0 1200,70 1440,35 L1440,70 L0,70 Z" fill="#0f2e38"/>
+    </svg>
+  </div>
+</section>
+
+<!-- PRODUCTOS -->
+<section class="products" id="products">
+  <div class="container">
+    <div class="sec-header reveal">
+      <span class="tag"><span class="ic" style="color:var(--gold-dim)"><svg><use href="#i-fork"/></svg></span> Nuestro Menú</span>
+      <h2 class="sec-title">Productos <span style="color:var(--cream)">Estrella</span></h2>
+      <p>Cada plato es una experiencia. Camarón fresco directo de la isla en recetas únicas.</p>
+    </div>
+    <div class="prod-grid">
+      <div class="prod-card sz-tall reveal d1">
+        <img src="camaronestempura1.jpg" alt="Camarones Tempura en Vaso" loading="lazy">
+        <div class="prod-base">
+          <div class="prod-name">Camarones Tempura</div>
+          <div class="prod-sub">En vaso · Salsas únicas</div>
+        </div>
+        <div class="prod-hover">
+          <div class="ph-name">Camarones Tempura</div>
+          <p class="ph-desc">Crujientes camarones en tempura servidos en vaso con nuestras salsas exclusivas. Una explosión de sabor en cada bocado.</p>
+          <a href="https://wa.me/593995451502?text=Hola!%20Quiero%20pedir%20Camarones%20Tempura" class="ph-btn" target="_blank">
+            <span class="ic"><svg><use href="#i-wa"/></svg></span> Pedir Ahora
+          </a>
+        </div>
+      </div>
+      <div class="prod-card sz-tall reveal d2">
+        <img src="camarinimartni.jpg" alt="Camaroní Martini" loading="lazy">
+        <div class="prod-base">
+          <div class="prod-name">Camaroní Martini</div>
+          <div class="prod-sub">Blanca · Rosada · Roja</div>
+        </div>
+        <div class="prod-hover">
+          <div class="ph-name">Camaroní Martini</div>
+          <p class="ph-desc">Nuestro exclusivo cóctel de camarón en 3 salsas: blanca, rosada y roja. El inicio perfecto de tu experiencia.</p>
+          <a href="https://wa.me/593995451502?text=Hola!%20Quiero%20pedir%20el%20Camaroni%20Martini" class="ph-btn" target="_blank">
+            <span class="ic"><svg><use href="#i-wa"/></svg></span> Pedir Ahora
+          </a>
+        </div>
+      </div>
+      <div class="prod-card sz-tall reveal d3">
+        <img src="El Perro Costero.jpg" alt="El Perro Costero" loading="lazy">
+        <div class="prod-base">
+          <div class="prod-name">El Perro Costero</div>
+          <div class="prod-sub">Hot dog de camarón</div>
+        </div>
+        <div class="prod-hover">
+          <div class="ph-name">El Perro Costero</div>
+          <p class="ph-desc">Nuestro hot dog de camarón más innovador. Servido con papas, una combinación irresistible.</p>
+          <a href="https://wa.me/593995451502?text=Hola!%20Quiero%20pedir%20El%20Perro%20Costero" class="ph-btn" target="_blank">
+            <span class="ic"><svg><use href="#i-wa"/></svg></span> Pedir Ahora
+          </a>
+        </div>
+      </div>
+      <div class="prod-card sz-wide reveal d1">
+        <img src="Combo Afrodisíaco.jpg" alt="Combo Afrodisíaco" loading="lazy">
+        <div class="prod-base">
+          <div class="prod-name">Combo Afrodisíaco</div>
+          <div class="prod-sub"><span class="ic"><svg><use href="#i-star"/></svg></span> El más completo — Tempura + Canastas + Cóctel + Arroz</div>
+        </div>
+        <div class="prod-hover">
+          <div class="ph-name">Combo Afrodisíaco</div>
+          <p class="ph-desc">El combo definitivo: tempura, canastitas de verde, cóctel de camarón y arroz. La experiencia completa de Isla Camaronera.</p>
+          <a href="https://wa.me/593995451502?text=Hola!%20Quiero%20pedir%20el%20Combo%20Afrodisiaco" class="ph-btn" target="_blank">
+            <span class="ic"><svg><use href="#i-wa"/></svg></span> Pedir Ahora
+          </a>
+        </div>
+      </div>
+      <div class="prod-card sz-sq reveal d2">
+        <img src="Combo de verde.jpg" alt="Combo de Verde" loading="lazy">
+        <div class="prod-base">
+          <div class="prod-name">Combo de Verde</div>
+          <div class="prod-sub">Canastitas · Pico de gallo</div>
+        </div>
+        <div class="prod-hover">
+          <div class="ph-name">Combo de Verde</div>
+          <p class="ph-desc">Canastitas de verde rellenas con pico de gallo fresco y camarón. Sabor ecuatoriano en su máxima expresión.</p>
+          <a href="https://wa.me/593995451502?text=Hola!%20Quiero%20pedir%20el%20Combo%20de%20Verde" class="ph-btn" target="_blank">
+            <span class="ic"><svg><use href="#i-wa"/></svg></span> Pedir Ahora
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- wave: teal-dark → teal -->
+<div class="wave-sep" style="background:#0f2e38">
+  <svg viewBox="0 0 1440 50" preserveAspectRatio="none" style="height:50px">
+    <path d="M0,25 C360,50 1080,0 1440,25 L1440,50 L0,50 Z" fill="#1B4D5C"/>
+  </svg>
+</div>
+
+<!-- STATS -->
+<section class="stats" id="stats">
+  <div class="container">
+    <div class="sec-header reveal">
+      <span class="tag" style="color:rgba(201,168,76,.6)"><span class="ic"><svg><use href="#i-sparkle"/></svg></span> Por qué elegirnos</span>
+      <h2 class="sec-title" style="color:var(--gold)">Números que <span style="color:var(--cream)">hablan solos</span></h2>
+    </div>
+    <div class="stats-grid">
+      <div class="stat reveal d1">
+        <div class="stat-ico"><span class="ic"><svg><use href="#i-calendar"/></svg></span></div>
+        <div class="stat-num" data-target="1" data-suffix=" año">0</div>
+        <div class="stat-lbl">En el mercado cuencano</div>
+      </div>
+      <div class="stat reveal d2">
+        <div class="stat-ico"><span class="ic"><svg><use href="#i-fork"/></svg></span></div>
+        <div class="stat-num" data-target="6">0</div>
+        <div class="stat-lbl">Productos únicos en menú</div>
+      </div>
+      <div class="stat reveal d3">
+        <div class="stat-ico"><span class="ic"><svg><use href="#i-heart"/></svg></span></div>
+        <div class="stat-num" data-target="1000" data-suffix="+">0</div>
+        <div class="stat-lbl">Clientes satisfechos</div>
+      </div>
+    </div>
+    <div class="why-grid">
+      <div class="why-item reveal d1">
+        <span class="why-ico"><span class="ic"><svg><use href="#i-wave"/></svg></span></span>
+        <div><div class="why-title">Productores certificados</div><p class="why-text">Camarón propio desde la isla. Sin intermediarios, máxima frescura y calidad garantizada.</p></div>
+      </div>
+      <div class="why-item reveal d2">
+        <span class="why-ico"><span class="ic"><svg><use href="#i-person"/></svg></span></span>
+        <div><div class="why-title">Emprendimiento local</div><p class="why-text">Creado por una joven emprendedora cuencana con pasión por la gastronomía costeña.</p></div>
+      </div>
+      <div class="why-item reveal d3">
+        <span class="why-ico"><span class="ic"><svg><use href="#i-leaf"/></svg></span></span>
+        <div><div class="why-title">Ingredientes frescos</div><p class="why-text">Hierbas frescas y salsas artesanales preparadas diariamente. Sin conservantes.</p></div>
+      </div>
+      <div class="why-item reveal d4">
+        <span class="why-ico"><span class="ic"><svg><use href="#i-bolt"/></svg></span></span>
+        <div><div class="why-title">Rápido y premium</div><p class="why-text">Sin esperas largas y sin sacrificar el sabor ni la calidad. Así de simple.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- wave: teal → cream -->
+<div class="wave-sep" style="background:var(--teal)">
+  <svg viewBox="0 0 1440 70" preserveAspectRatio="none" style="height:70px">
+    <path d="M0,35 C240,0 480,70 720,35 C960,0 1200,70 1440,35 L1440,70 L0,70 Z" fill="#F5F0E8"/>
+  </svg>
+</div>
+
+<!-- CONTACTO -->
+<section class="contact" id="contact">
+  <div class="container">
+    <div class="sec-header reveal">
+      <span class="tag"><span class="ic"><svg><use href="#i-pin"/></svg></span> Encuéntranos</span>
+      <h2 class="sec-title">Visítanos o <span class="ac">contáctanos</span></h2>
+    </div>
+    <div class="contact-grid">
+      <div>
+        <div class="c-detail reveal d1">
+          <div class="c-ico"><span class="ic"><svg><use href="#i-pin"/></svg></span></div>
+          <div><div class="c-lbl">Dirección</div><div class="c-val">Av. Yana Urco y Valdivia, Cuenca</div></div>
+        </div>
+        <div class="c-detail reveal d2">
+          <div class="c-ico"><span class="ic"><svg><use href="#i-wa"/></svg></span></div>
+          <div><div class="c-lbl">WhatsApp</div><div class="c-val">0995 451 502</div></div>
+        </div>
+        <div class="c-detail reveal d3">
+          <div class="c-ico"><span class="ic"><svg><use href="#i-camera"/></svg></span></div>
+          <div><div class="c-lbl">Redes sociales</div><div class="c-val">@islacamaronera</div></div>
+        </div>
+        <div class="map-box reveal d4">
+          <iframe src="https://maps.google.com/maps?q=Av+Yana+Urco+y+Valdivia,+Cuenca,+Ecuador&output=embed"
+            allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+      <div class="soc-btns reveal-r">
+        <p class="soc-intro">¿Listo para probar el camarón más fresco de Cuenca? Escríbenos por WhatsApp y te atendemos de inmediato. Síguenos en redes para ver promos y contenido exclusivo.</p>
+        <a href="https://wa.me/593995451502" class="soc-btn soc-wa" target="_blank" rel="noopener">
+          <span class="soc-btn-ico"><span class="ic"><svg><use href="#i-wa"/></svg></span></span>
+          <span class="soc-btn-txt">Hacer un Pedido <small>WhatsApp · 0995 451 502</small></span>
+        </a>
+        <a href="https://instagram.com/islacamaronera" class="soc-btn soc-ig" target="_blank" rel="noopener">
+          <span class="soc-btn-ico"><span class="ic"><svg><use href="#i-ig"/></svg></span></span>
+          <span class="soc-btn-txt">Instagram <small>@islacamaronera</small></span>
+        </a>
+        <a href="https://tiktok.com/@islacamaronera" class="soc-btn soc-tt" target="_blank" rel="noopener">
+          <span class="soc-btn-ico"><span class="ic"><svg><use href="#i-tt"/></svg></span></span>
+          <span class="soc-btn-txt">TikTok <small>@islacamaronera</small></span>
+        </a>
+        <div class="soc-note">
+          <p class="soc-note-title"><span class="ic"><svg><use href="#i-shrimp"/></svg></span> Pedidos y consultas</p>
+          <p>Para pedidos especiales, eventos o preguntas sobre nuestros productos, contáctanos directamente. ¡Estamos para servirte!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- wave: cream → teal-dark (footer) -->
+<div class="wave-sep" style="background:var(--cream)">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="height:60px">
+    <path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" fill="#0f2e38"/>
+  </svg>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-logo">
+        <img src="logoisla.png" alt="Isla Camaronera">
+        <p class="footer-tagline">Camarón directo de la isla · Cuenca, Ecuador</p>
+      </div>
+      <div class="footer-links">
+        <a href="#about">Nosotros</a>
+        <a href="#products">Menú</a>
+        <a href="#stats">¿Por qué?</a>
+        <a href="#contact">Contacto</a>
+      </div>
+      <div class="footer-soc">
+        <a href="https://wa.me/593995451502" target="_blank" rel="noopener" title="WhatsApp"><span class="ic"><svg><use href="#i-wa"/></svg></span></a>
+        <a href="https://instagram.com/islacamaronera" target="_blank" rel="noopener" title="Instagram"><span class="ic"><svg><use href="#i-ig"/></svg></span></a>
+        <a href="https://tiktok.com/@islacamaronera" target="_blank" rel="noopener" title="TikTok"><span class="ic"><svg><use href="#i-tt"/></svg></span></a>
+      </div>
+    </div>
+    <div class="footer-bot">
+      <p class="footer-copy">© 2025 Isla Camaronera. Todos los derechos reservados.</p>
+      <p class="footer-made">Hecho con <span class="ic"><svg><use href="#i-heart"/></svg></span> en Cuenca, Ecuador</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 80);
+}, {passive:true});
+
+function toggleNav() {
+  document.getElementById('navLinks').classList.toggle('open');
+}
+document.querySelectorAll('#navLinks a').forEach(a => {
+  a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'));
+});
+
+// Particles — gold & cream tones
+(function(){
+  const c = document.getElementById('ptcls');
+  const colors = ['rgba(201,168,76,.55)','rgba(245,240,232,.3)','rgba(201,168,76,.35)','rgba(245,240,232,.18)'];
+  for(let i=0;i<45;i++){
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const s = Math.random()*8+3;
+    const col = colors[Math.floor(Math.random()*colors.length)];
+    p.style.cssText = `width:${s}px;height:${s}px;left:${Math.random()*100}%;background:${col};box-shadow:0 0 ${s*2}px ${col};animation-duration:${Math.random()*12+7}s;animation-delay:${Math.random()*18}s`;
+    c.appendChild(p);
+  }
+})();
+
+// Parallax
+const plxBg = document.getElementById('plxBg');
+const plxSection = document.querySelector('.about-parallax');
+window.addEventListener('scroll', () => {
+  const rect = plxSection.getBoundingClientRect();
+  plxBg.style.transform = `translateY(${-rect.top * 0.38}px)`;
+}, {passive:true});
+
+// Scroll reveal
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('revealed'); });
+}, {threshold:0.12, rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el => obs.observe(el));
+
+// Counters
+function runCounter(el) {
+  const target = +el.dataset.target, suf = el.dataset.suffix || '';
+  const tick = target / (2200/16);
+  let cur = 0;
+  const id = setInterval(() => {
+    cur += tick;
+    if(cur >= target){ cur = target; clearInterval(id); }
+    el.textContent = (cur >= 1000 ? Math.floor(cur).toLocaleString() : Math.floor(cur)) + suf;
+  }, 16);
+}
+const cObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting){ runCounter(e.target); cObs.unobserve(e.target); } });
+}, {threshold:0.5});
+document.querySelectorAll('.stat-num[data-target]').forEach(el => cObs.observe(el));
+
+// Video 9s loop
+const vid = document.getElementById('aboutVideo');
+if(vid) vid.addEventListener('timeupdate', () => {
+  if(vid.currentTime >= 9){ vid.currentTime = 0; vid.play(); }
+});
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', function(e) {
+    const t = document.querySelector(this.getAttribute('href'));
+    if(t){ e.preventDefault(); window.scrollTo({top: t.offsetTop - 68, behavior:'smooth'}); }
+  });
+});
+</script>
+</body>
+</html>
